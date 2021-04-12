@@ -11,9 +11,9 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>COCOMO</string>
   </property>
-  <widget class="QComboBox" name="comboBox">
+  <widget class="QComboBox" name="comboBox_1">
    <property name="geometry">
     <rect>
      <x>60</x>
@@ -733,7 +733,7 @@
     </property>
    </item>
   </widget>
-  <widget class="QLineEdit" name="lineEdit">
+  <widget class="QLineEdit" name="sizeEdit">
    <property name="geometry">
     <rect>
      <x>290</x>
