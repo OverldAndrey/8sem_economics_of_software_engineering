@@ -1010,12 +1010,12 @@
    </row>
    <column>
     <property name="text">
-     <string>Работа (%)</string>
+     <string>Работа</string>
     </property>
    </column>
    <column>
     <property name="text">
-     <string>Время (%)</string>
+     <string>Время</string>
     </property>
    </column>
   </widget>

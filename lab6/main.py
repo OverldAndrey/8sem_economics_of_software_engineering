@@ -1,9 +1,12 @@
 import sys
 from matplotlib import pyplot as plt
 import numpy as np
-from PyQt5 import uic
+from PyQt5 import uic, QtCore
 from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtWidgets import QMainWindow, QApplication, QDialog, QLineEdit, QComboBox, QHeaderView, QTableWidgetItem
+
+QApplication.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling, True) #enable highdpi scaling
+QApplication.setAttribute(QtCore.Qt.AA_UseHighDpiPixmaps, True)
 
 params_table = {
     'RELY': [0.75, 0.86, 1.0, 1.15, 1.40],
