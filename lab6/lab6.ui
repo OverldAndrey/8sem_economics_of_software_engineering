@@ -1032,6 +1032,19 @@
     <string>Распределение работ и времени по стадиям жизненного цикла при традиционном подходе</string>
    </property>
   </widget>
+  <widget class="QPushButton" name="task1Button">
+   <property name="geometry">
+    <rect>
+     <x>1120</x>
+     <y>20</y>
+     <width>141</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Задача 1</string>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>

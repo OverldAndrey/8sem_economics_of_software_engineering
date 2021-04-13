@@ -1,5 +1,5 @@
 import sys
-
+from matplotlib import pyplot as plt
 import numpy as np
 from PyQt5 import uic
 from PyQt5.QtCore import pyqtSlot
@@ -31,11 +31,11 @@ project_modes = {
 }
 
 
-def common_PM(EAF, SIZE):
+def PM(c1, p1, EAF, SIZE):
     return 3.2 * EAF * (SIZE ** 1.05)
 
 
-def common_TM(PM):
+def TM(c2, p2, PM):
     return 2.5 * (PM ** 0.38)
 
 
@@ -157,6 +157,73 @@ class MainWindow(QDialog):
         self.ui.classicTable.setItem(4, 1, QTableWidgetItem(str(round(tm_clean * 0.28, 2))))
         self.ui.classicTable.setItem(5, 1, QTableWidgetItem(str(round(tm_clean, 2))))
         self.ui.classicTable.setItem(6, 1, QTableWidgetItem(str(round(tm, 2))))
+
+        y = []
+        for i in range(5):
+            t = round(float(self.ui.classicTable.item(i, 1).text()))
+            for j in range(t):
+                y.append(round(round(float(self.ui.classicTable.item(i, 0).text())) / t))
+
+        x = [i + 1 for i in range(len(y))]
+
+        plt.bar(x, y)
+        for xi in x:
+            plt.annotate(str(y[xi - 1]), (xi, y[xi - 1]), ha='center')
+        plt.show()
+
+    @pyqtSlot(name="on_task1Button_clicked")
+    def calculate_task1(self):
+
+        for cplx in [0, 2, 4]:
+            for t in range(3):
+                y_acap_pm = []
+                y_aexp_pm = []
+                y_pcap_pm = []
+                y_lexp_pm = []
+                y_acap_tm = []
+                y_aexp_tm = []
+                y_pcap_tm = []
+                y_lexp_tm = []
+
+                x = [1, 2, 3]
+
+                for i in range(1, 4):
+                    y_acap_pm.append(PM(project_modes['c1'][t], project_modes['p1'][t], calc_EAF([
+                        params_table['ACAP'][i],
+                        params_table['CPLX'][cplx]
+                    ]), 100))
+                    y_acap_tm.append(TM(project_modes['c2'][t], project_modes['p2'][t], y_acap_pm[-1]))
+
+                    y_aexp_pm.append(PM(project_modes['c1'][t], project_modes['p1'][t], calc_EAF([
+                        params_table['AEXP'][i],
+                        params_table['CPLX'][cplx]
+                    ]), 100))
+                    y_aexp_tm.append(TM(project_modes['c2'][t], project_modes['p2'][t], y_aexp_pm[-1]))
+
+                    y_pcap_pm.append(PM(project_modes['c1'][t], project_modes['p1'][t], calc_EAF([
+                        params_table['PCAP'][i],
+                        params_table['CPLX'][cplx]
+                    ]), 100))
+                    y_pcap_tm.append(TM(project_modes['c2'][t], project_modes['p2'][t], y_pcap_pm[-1]))
+
+                    y_lexp_pm.append(PM(project_modes['c1'][t], project_modes['p1'][t], calc_EAF([
+                        params_table['LEXP'][i],
+                        params_table['CPLX'][cplx]
+                    ]), 100))
+                    y_lexp_tm.append(TM(project_modes['c2'][t], project_modes['p2'][t], y_lexp_pm[-1]))
+
+                plt.suptitle(f'PM, TM; mode={t}, CPLX={cplx}')
+                plt.subplot(121)
+                line1, = plt.plot(x, y_acap_pm, 'r', label='ACAP')
+                line2, = plt.plot(x, y_aexp_pm, 'g', label='AEXP')
+                line3, = plt.plot(x, y_pcap_pm, 'b', label='PCAP')
+                line4, = plt.plot(x, y_lexp_pm, 'y', label='LEXP')
+                plt.subplot(122)
+                plt.plot(x, y_acap_tm, 'r', x, y_aexp_tm, 'g', x, y_pcap_tm, 'b', x, y_lexp_tm, 'y')
+                plt.legend(handles=[line1, line2, line3, line4])
+                plt.show()
+
+
 
 
 def main():
