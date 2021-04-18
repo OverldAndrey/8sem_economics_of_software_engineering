@@ -13,6 +13,7 @@ class MainWindow(QMainWindow):
         self.ui = uic.loadUi("lab7.ui", self)
 
         self.tab1 = self.ui.tabWidget.widget(0)
+        self.tab2 = self.ui.tabWidget.widget(1)
 
         self.EIQty: QLineEdit = self.tab1.findChild(QLineEdit, 'EIEdit')
         self.EOQty: QLineEdit = self.tab1.findChild(QLineEdit, 'EOEdit')
@@ -55,7 +56,45 @@ class MainWindow(QMainWindow):
         self.FPRes: QLabel = self.tab1.findChild(QLabel, 'FPLabel')
         self.LOCRes: QLabel = self.tab1.findChild(QLabel, 'LOCLabel')
 
-        print(self.ui.tabWidget.widget(0).findChild(QLineEdit, 'CEdit'))
+        self.PREC: QComboBox = self.tab2.findChild(QComboBox, 'powComboBox_1')
+        self.FLEX: QComboBox = self.tab2.findChild(QComboBox, 'powComboBox_2')
+        self.RESL: QComboBox = self.tab2.findChild(QComboBox, 'powComboBox_3')
+        self.TEAM: QComboBox = self.tab2.findChild(QComboBox, 'powComboBox_4')
+        self.PMAT: QComboBox = self.tab2.findChild(QComboBox, 'powComboBox_5')
+
+        self.Power: QLabel = self.tab2.findChild(QLabel, 'PLabel')
+
+        self.arch: [QComboBox] = [
+            self.tab2.findChild(QComboBox, 'archComboBox_1'),
+            self.tab2.findChild(QComboBox, 'archComboBox_2'),
+            self.tab2.findChild(QComboBox, 'archComboBox_3'),
+            self.tab2.findChild(QComboBox, 'archComboBox_4'),
+            self.tab2.findChild(QComboBox, 'archComboBox_5'),
+            self.tab2.findChild(QComboBox, 'archComboBox_6'),
+            self.tab2.findChild(QComboBox, 'archComboBox_7'),
+        ]
+
+        self.archLab: QLabel = self.tab2.findChild(QLabel, 'archLabLabel')
+        self.archTime: QLabel = self.tab2.findChild(QLabel, 'archTimeLabel')
+
+        self.screenQty = [
+            self.tab2.findChild(QLineEdit, 'screenSimpleEdit'),
+            self.tab2.findChild(QLineEdit, 'screenMediumEdit'),
+            self.tab2.findChild(QLineEdit, 'screenDifficultEdit'),
+        ]
+
+        self.reportQty = [
+            self.tab2.findChild(QLineEdit, 'reportSimpleEdit'),
+            self.tab2.findChild(QLineEdit, 'reportMediumEdit'),
+            self.tab2.findChild(QLineEdit, 'reportDifficultEdit'),
+        ]
+
+        self.gen3Qty: QLineEdit = self.tab2.findChild(QLineEdit, 'gen3Edit')
+        self.RUSE: QLineEdit = self.tab2.findChild(QLineEdit, 'RUSEEdit')
+        self.EXP: QComboBox = self.tab2.findChild(QComboBox, 'expComboBox')
+
+        self.compLab: QLabel = self.tab2.findChild(QLabel, 'compLabLabel')
+        self.compTime: QLabel = self.tab2.findChild(QLabel, 'compTimeLabel')
 
     def get_sys_params(self):
         return list(map(lambda sb: sb.value(), self.sysParams))
@@ -108,9 +147,55 @@ class MainWindow(QMainWindow):
         self.FPRes.setText(str(FP))
         self.LOCRes.setText(str(LOC))
 
+    def get_power_params(self):
+        return {
+            'PREC': self.PREC.currentIndex(),
+            'FLEX': self.FLEX.currentIndex(),
+            'RESL': self.RESL.currentIndex(),
+            'TEAM': self.TEAM.currentIndex(),
+            'PMAT': self.PMAT.currentIndex(),
+        }
+
+    def set_power_result(self, P):
+        self.Power.setText(str(P))
+
+    def get_arch_params(self):
+        return list(map(lambda sb: sb.currentIndex(), self.arch))
+
+    def set_arch_results(self, labor, time):
+        self.archLab.setText(str(labor))
+        self.archTime.setText(str(time))
+
+    def get_screen_qty(self):
+        return list(map(lambda le: float(le.text()), self.screenQty))
+
+    def get_report_qty(self):
+        return list(map(lambda le: float(le.text()), self.reportQty))
+
+    def get_3gen_qty(self):
+        return float(self.gen3Qty.text())
+
+    def get_ruse_percent(self):
+        return float(self.RUSE.text())
+
+    def get_experience_level(self):
+        return self.EXP.currentIndex()
+
+    def set_comp_results(self, labor, time):
+        self.compLab.setText(str(labor))
+        self.compTime.setText(str(time))
+
     @pyqtSlot(name='on_calculateButton_clicked')
     def calculate_fp(self):
         print('Calculate')
+
+    @pyqtSlot(name='on_archCalculateButton_clicked')
+    def calculate_arch(self):
+        print('Calculate arch')
+
+    @pyqtSlot(name='on_compCalculateButton_clicked')
+    def calculate_comp(self):
+        print('Calculate comp')
 
 
 def main():
