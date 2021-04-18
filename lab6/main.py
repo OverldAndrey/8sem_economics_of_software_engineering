@@ -1,9 +1,21 @@
 import sys
+import os
 from matplotlib import pyplot as plt
 import numpy as np
 from PyQt5 import uic, QtCore
 from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtWidgets import QMainWindow, QApplication, QDialog, QLineEdit, QComboBox, QHeaderView, QTableWidgetItem
+
+
+def resource_path(relative_path):
+    if getattr(sys, 'frozen', False):
+        base_path = sys._MEIPASS
+    else:
+        base_path = os.getcwd()
+    return os.path.join(base_path, relative_path)
+
+
+# resource_path('lab6.ui')
 
 QApplication.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling, True) #enable highdpi scaling
 QApplication.setAttribute(QtCore.Qt.AA_UseHighDpiPixmaps, True)
@@ -49,7 +61,7 @@ def calc_EAF(params: list):
 class MainWindow(QDialog):
     def __init__(self, parent=None):
         super(MainWindow, self).__init__(parent)
-        self.ui = uic.loadUi("lab6.ui", self)
+        self.ui = uic.loadUi(resource_path('lab6.ui'), self)
 
         self.RELY: QComboBox = self.ui.comboBox_1
         self.DATA: QComboBox = self.ui.comboBox_2
