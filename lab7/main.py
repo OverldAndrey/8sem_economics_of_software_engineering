@@ -268,7 +268,8 @@ class MainWindow(QMainWindow):
         coeff = 0.65 + 0.01 * sum(sys_params)
         normFP = FP * coeff
 
-        for lang in ['Java', 'CSharp', 'SQL']:
+        for lang in ['ASM', 'C', 'Cobol', 'Fortran', 'Pascal', 'CPP', 'Java', 'CSharp', 'Ada', 'SQL', 'VCPP', 'Delphi',
+            'Perl', 'Prolog']:
             self.LOC += normFP * (float(languages[lang]) / 100.0) * language_fp_table[lang]
 
         self.set_fp_results(EIResult, EOResult, EQResult, ILFResult, EIFResult, FP)
