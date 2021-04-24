@@ -1,4 +1,4 @@
-import sys
+import sys, os
 import math
 from functools import reduce
 from PyQt5 import uic, QtCore
@@ -7,6 +7,18 @@ from PyQt5.QtWidgets import QMainWindow, QApplication, QLineEdit, QComboBox, QLa
 
 QApplication.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling, True) #enable highdpi scaling
 QApplication.setAttribute(QtCore.Qt.AA_UseHighDpiPixmaps, True)
+
+# Установка в exe под win
+# pyinstaller -F --noconsole --add-data "lab7.ui;." main.py
+
+
+def resource_path(relative_path):
+    if getattr(sys, 'frozen', False):
+        base_path = sys._MEIPASS
+    else:
+        base_path = os.getcwd()
+    return os.path.join(base_path, relative_path)
+
 
 power_params_table = {
     'PREC': [6.2, 4.96, 3.72, 2.48, 1.24, 0.0],
@@ -56,7 +68,7 @@ experience_level = [4, 7, 13, 25, 50]
 class MainWindow(QMainWindow):
     def __init__(self, parent=None):
         super(MainWindow, self).__init__(parent)
-        self.ui = uic.loadUi("lab7.ui", self)
+        self.ui = uic.loadUi(resource_path("lab7.ui"), self)
 
         self.tab1 = self.ui.tabWidget.widget(0)
         self.tab2 = self.ui.tabWidget.widget(1)
